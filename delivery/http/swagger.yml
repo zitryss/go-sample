@@ -1,0 +1,266 @@
+openapi: 3.0.0
+info:
+    title: perfmon
+    version: 0.1.0
+servers:
+    - url: 'http://159.89.47.233'
+    - url: 'http://localhost'
+paths:
+    /:
+        post:
+            description: 'Add a finished job'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - product
+                                - version
+                                - name
+                                - measurement
+                                - timestamp
+                                - value
+                            properties:
+                                product:
+                                    type: string
+                                version:
+                                    type: string
+                                attributes:
+                                    type: array
+                                    items:
+                                        type: string
+                                name:
+                                    type: string
+                                measurement:
+                                    type: string
+                                timestamp:
+                                    type: string
+                                    format: date-time
+                                value:
+                                    type: integer
+                                    minimum: 1
+            responses:
+                '201':
+                    description: Created
+                '400':
+                    description: 'Bad Request'
+                '409':
+                    description: 'Resource Already Exists'
+                '500':
+                    description: 'Internal Server Error'
+    /products:
+        get:
+            description: 'Returns all available products'
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    products:
+                                        type: array
+                                        items:
+                                            type: string
+                '500':
+                    description: 'Internal Server Error'
+    /versions:
+        get:
+            description: 'Returns all the versions for the specific product'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - product
+                            properties:
+                                product:
+                                    type: string
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    versions:
+                                        type: array
+                                        items:
+                                            type: string
+                '400':
+                    description: 'Bad Request'
+                '500':
+                    description: 'Internal Server Error'
+    /attributes:
+        get:
+            description: 'Returns all the attributes for the specific product and version'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - product
+                                - version
+                            properties:
+                                product:
+                                    type: string
+                                version:
+                                    type: string
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    attributes:
+                                        type: array
+                                        items:
+                                            type: string
+                '400':
+                    description: 'Bad Request'
+                '500':
+                    description: 'Internal Server Error'
+    /names:
+        get:
+            description: 'Returns all the names for the specific product, version and attributes'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - product
+                                - version
+                            properties:
+                                product:
+                                    type: string
+                                version:
+                                    type: string
+                                attributes:
+                                    type: array
+                                    items:
+                                        type: string
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    names:
+                                        type: array
+                                        items:
+                                            type: string
+                '400':
+                    description: 'Bad Request'
+                '500':
+                    description: 'Internal Server Error'
+    /measurements:
+        get:
+            description: 'Returns all the measurements for the specific product, version, attributes and name'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - product
+                                - version
+                                - name
+                            properties:
+                                product:
+                                    type: string
+                                version:
+                                    type: string
+                                attributes:
+                                    type: array
+                                    items:
+                                        type: string
+                                name:
+                                    type: string
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    measurements:
+                                        type: array
+                                        items:
+                                            type: string
+                '400':
+                    description: 'Bad Request'
+                '500':
+                    description: 'Internal Server Error'
+    /chart:
+        get:
+            description: 'Returns a time series of values for the specific product, version, attributes, name, measurement and time period'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - product
+                                - version
+                                - name
+                                - measurement
+                                - lbound
+                                - rbound
+                            properties:
+                                product:
+                                    type: string
+                                version:
+                                    type: string
+                                attributes:
+                                    type: array
+                                    items:
+                                        type: string
+                                name:
+                                    type: string
+                                measurement:
+                                    type: string
+                                lbound:
+                                    type: string
+                                    format: date-time
+                                rbound:
+                                    type: string
+                                    format: date-time
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                x:
+                                                    type: string
+                                                    format: date-time
+                                                y:
+                                                    type: integer
+                '400':
+                    description: 'Bad Request / Not enough attributes provided!'
+                '500':
+                    description: 'Internal Server Error'

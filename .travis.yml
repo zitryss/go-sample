@@ -1,0 +1,21 @@
+language: go
+addons:
+    hosts:
+        - db
+services:
+    - docker
+before_install:
+    - sudo service postgresql stop
+    - docker build -t db -f Dockerfile-db .
+    - docker run -d -p 127.0.0.1:5432:5432 db
+go:
+    - stable
+env:
+    - GO111MODULE=on
+install:
+    - go mod download
+script:
+    - CGO_ENABLED=0 go build -ldflags='-w'
+    - go test -race -tags=integration -coverprofile=coverage.txt -covermode=atomic ./...
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
