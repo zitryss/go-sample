@@ -1,5 +1,10 @@
 # go-sample
 
+[![Build Status](https://travis-ci.org/zitryss/go-sample.svg?branch=master)](https://travis-ci.org/zitryss/go-sample)
+[![codecov](https://codecov.io/gh/zitryss/go-sample/branch/master/graph/badge.svg)](https://codecov.io/gh/zitryss/go-sample)
+[![Go Report Card](https://goreportcard.com/badge/github.com/zitryss/go-sample)](https://goreportcard.com/report/github.com/zitryss/go-sample)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/zitryss/perfmon/blob/master/LICENSE)
+
 A sample layout for Go application projects with the real code.
 
 
@@ -14,6 +19,7 @@ Ideas used to create the architecture and structure:
 * [Standard Package Layout](https://medium.com/@benbjohnson/standard-package-layout-7cdbc8391fc1)
 * [How Do You Structure Your Go Apps](https://youtu.be/oL6JBUk6tj0)
 * [How I write Go HTTP services after seven years](https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c208122831)
+
 
 
 ## Requirements
